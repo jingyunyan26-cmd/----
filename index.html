@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>業務趨勢與概況互動報告</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 24px; background: #f8fafc; color: #1e293b; }
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 20px; max-width: 800px; margin-left: auto; margin-right: auto; }
+    h1 { font-size: 20px; margin-bottom: 16px; }
+    .chart-container { position: relative; height: 300px; width: 100%; }
+    input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; margin-bottom: 12px; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { padding: 10px; border-bottom: 1px solid #f1f5f9; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>📊 年度數據概況（可點擊圖例互動）</h1>
+    <div class="chart-container">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h1>📝 輸入代號快速篩選</h1>
+    <input type="text" id="filterInput" placeholder="輸入關鍵字篩選摘要（例：成長、風險、政策）..." onkeyup="filterList()">
+    <ul id="summaryList">
+      <li><strong>Q1 成長：</strong> 整體營運數據成長 15%，新專案順利推展。</li>
+      <li><strong>Q2 政策：</strong> 配合最新規範調整流程，降低作業時間。</li>
+      <li><strong>Q3 風險：</strong> 外部供應鏈波動，需持續追蹤備料狀況。</li>
+      <li><strong>Q4 展望：</strong> 預期達成年度設定目標，擴大推廣規模。</li>
+    </ul>
+  </div>
+
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+        datasets: [{
+          label: '實際達成率 (%)',
+          data: [90, 92, 88, 100],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+
+    function filterList() {
+      const input = document.getElementById('filterInput').value.toLowerCase();
+      const items = document.querySelectorAll('#summaryList li');
+      items.forEach(item => {
+        item.style.display = item.innerText.toLowerCase().includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
